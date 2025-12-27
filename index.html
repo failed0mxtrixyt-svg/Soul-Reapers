@@ -53,13 +53,29 @@
                     <a href="#esports" class="nav-link">E-Sports</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#shop" class="nav-link">Shop</a>
+                </li>
+                <li class="nav-item">
                     <a href="#about" class="nav-link">About</a>
                 </li>
             </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <div class="nav-actions">
+                <a href="#shop" class="nav-cart" onclick="toggleCart(event)">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="showLoginModal()">Login</button>
+                    <button class="btn btn-primary" onclick="showRegisterModal()">Register</button>
+                </div>
+                <div class="cart-dropdown" id="cartDropdown">
+                    <div class="cart-empty">Your cart is empty</div>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
             </div>
         </div>
     </nav>
@@ -72,6 +88,21 @@
             <p class="hero-subtitle">Esports Team</p>
             <div class="hero-buttons">
                 <a href="#roster" class="btn btn-primary">Meet the Team</a>
+                <a href="#shop" class="btn btn-secondary">Shop Gear</a>
+            </div>
+            <div class="hero-subpoints">
+                <a class="subpoint" href="#roster">
+                    <h4>Roster</h4>
+                    <p>Elite lineup across R6 and academy.</p>
+                </a>
+                <a class="subpoint" href="#esports">
+                    <h4>Achievements</h4>
+                    <p>Tournament runs, highlights, and accolades.</p>
+                </a>
+                <a class="subpoint" href="#partners">
+                    <h4>Partners</h4>
+                    <p>Powered by Dubby Energy and more to come.</p>
+                </a>
             </div>
         </div>
         <div class="hero-video">
@@ -265,6 +296,14 @@
                     <div class="achievement-icon">
                         <i class="fas fa-trophy"></i>
                     </div>
+                    <div class="achievement-content">
+                        <h3>Inaugural League Champions</h3>
+                        <p>Crowned champions of the inaugural season, dominating the competition and securing our place in history.</p>
+                        <div class="achievement-meta">
+                            <span class="achievement-date">2025</span>
+                            <span class="achievement-badge">Champions</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -283,6 +322,25 @@
         </div>
     </section>
 
+    <!-- Partners Section -->
+    <section id="partners" class="partners">
+        <div class="container">
+            <h2 class="section-title">PARTNERS</h2>
+            <div class="partner-grid">
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <img src="logos/DUBBY.png" alt="Dubby Energy">
+                    </div>
+                    <div class="partner-info">
+                        <h3>Dubby Energy</h3>
+                        <p>Official energy partner powering our grind and game-day focus.</p>
+                        <a class="btn btn-secondary" href="https://www.dubby.gg" target="_blank" rel="noopener">Visit Dubby</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Shop Section -->
     <section id="shop" class="shop">
         <div class="container">
@@ -290,42 +348,34 @@
             <div class="shop-grid">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="logos/jersey.png" alt="Team Jersey">
+                        <img src="logos/download (1).png" alt="Team Jersey">
+                    </div>
+                    <div class="product-info">
                     </div>
                     <div class="product-info">
                         <h3>Team Jersey</h3>
-                        <p class="product-price">$89.99</p>
-                        <button class="btn btn-primary">Add to Cart</button>
+                        <p class="product-price">$58.57</p>
+                        <button class="btn btn-primary" onclick="addToCart('Team Jersey', 58.57, 'logos/download (1).png', 'https://exclaim.gg/builder/?saved=33nh67yq')">Add to Cart</button>
                     </div>
                 </div>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="logos/hoodie.png" alt="Team Hoodie">
-                    </div>
-                    <div class="product-info">
-                        <h3>Team Hoodie</h3>
-                        <p class="product-price">$129.99</p>
-                        <button class="btn btn-primary">Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="logos/cap.png" alt="Team Cap">
-                    </div>
-                    <div class="product-info">
-                        <h3>Team Cap</h3>
-                        <p class="product-price">$34.99</p>
-                        <button class="btn btn-primary">Add to Cart</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="logos/mousepad.png" alt="Gaming Mousepad">
+                        <img src="logos/download (2).png" alt="Gaming Mousepad">
                     </div>
                     <div class="product-info">
                         <h3>Gaming Mousepad</h3>
-                        <p class="product-price">$49.99</p>
-                        <button class="btn btn-primary">Add to Cart</button>
+                        <p class="product-price">$39.99</p>
+                        <button class="btn btn-primary" onclick="addToCart('Gaming Mousepad', 39.99, 'logos/download (2).png', 'https://exclaim.gg/builder/?saved=2d3h0m1s')">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="logos/download (3).png" alt="Team Hoodie">
+                    </div>
+                    <div class="product-info">
+                        <h3>Team Hoodie</h3>
+                        <p class="product-price">$79.99</p>
+                        <button class="btn btn-primary" onclick="addToCart('Team Hoodie', 79.99, 'logos/download (2).png', 'https://exclaim.gg/builder/?saved=31lrpcma')">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -350,7 +400,7 @@
                             <p>Prize Winnings</p>
                         </div>
                         <div class="stat">
-                            <h3>43+</h3>
+                            <h3>49+</h3>
                             <p>Global Fans</p>
                         </div>
                     </div>
@@ -370,11 +420,9 @@
                     <h3>SOUL REAPERS ESPORTS</h3>
                     <p>Esports Team</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-twitch"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="https://x.com/soulreapersgg"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.youtube.com/@SREontop"><i class="fab fa-youtube"></i></a>
+                        <a href="https://discord.gg/zt95s8ar4e"><i class="fab fa-discord"></i></a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -401,6 +449,69 @@
             </div>
         </div>
     </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to Soul Reapers</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form class="auth-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkmark"></span>
+                        Stay signed in
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Login</button>
+                <p class="auth-switch">
+                    Don't have an account? <a href="#" onclick="switchToRegister()">Register</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Join Soul Reapers</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <form class="auth-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" required placeholder="Choose a username">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" required placeholder="Confirm your password">
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Register</button>
+                <p class="auth-switch">
+                    Already have an account? <a href="#" onclick="switchToLogin()">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
