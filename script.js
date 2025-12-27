@@ -355,6 +355,334 @@ function createParticle() {
 // Create particles periodically
 setInterval(createParticle, 300);
 
-// Console Easter egg
-console.log('%c Soul Reapers Esports ', 'background: linear-gradient(45deg, #dc2626, #ef4444); color: white; font-size: 20px; padding: 10px; border-radius: 5px;');
-console.log('%c Esports Team ', 'color: #ff6b35; font-size: 14px;');
+// Authentication System
+let currentUser = null;
+
+function showLoginModal() {
+    document.getElementById('loginModal').classList.add('active');
+}
+
+function showRegisterModal() {
+    document.getElementById('registerModal').classList.add('active');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+}
+
+function switchToRegister() {
+    closeModal('loginModal');
+    showRegisterModal();
+}
+
+function switchToLogin() {
+    closeModal('registerModal');
+    showLoginModal();
+}
+
+function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const rememberMe = document.getElementById('rememberMe').checked;
+    
+    // Simple validation (in real app, this would connect to backend)
+    if (email && password) {
+        currentUser = { email: email };
+        
+        // Save to localStorage if remember me is checked
+        if (rememberMe) {
+            localStorage.setItem('soulReapersUser', JSON.stringify(currentUser));
+        }
+        
+        // Load user's cart and update UI
+        loadCartFromStorage();
+        updateAuthUI();
+        closeModal('loginModal');
+        showNotification('Welcome back to Soul Reapers!');
+        
+        // Clear form
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('rememberMe').checked = false;
+    }
+}
+
+function handleRegister(event) {
+    event.preventDefault();
+    
+    const username = document.getElementById('registerUsername').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+    
+    // Validation
+    if (password !== confirmPassword) {
+        showNotification('Passwords do not match!', 'error');
+        return;
+    }
+    
+    if (username && email && password) {
+        currentUser = { username: username, email: email };
+        
+        // Load user's cart and update UI
+        loadCartFromStorage();
+        updateAuthUI();
+        closeModal('registerModal');
+        showNotification(`Welcome to Soul Reapers, ${username}!`);
+        
+        // Clear form
+        document.getElementById('registerUsername').value = '';
+        document.getElementById('registerEmail').value = '';
+        document.getElementById('registerPassword').value = '';
+        document.getElementById('registerConfirmPassword').value = '';
+    }
+}
+
+function updateAuthUI() {
+    const authButtons = document.querySelector('.auth-buttons');
+    
+    if (currentUser) {
+        authButtons.innerHTML = `
+            <span class="user-welcome">Welcome, ${currentUser.username || currentUser.email}</span>
+            <button class="btn btn-outline" onclick="logout()">Logout</button>
+        `;
+    } else {
+        authButtons.innerHTML = `
+            <button class="btn btn-outline" onclick="showLoginModal()">Login</button>
+            <button class="btn btn-primary" onclick="showRegisterModal()">Register</button>
+        `;
+    }
+}
+
+function logout() {
+    // Save current user's cart before logging out
+    saveCartToStorage();
+    
+    currentUser = null;
+    localStorage.removeItem('soulReapersUser');
+    
+    // Load guest cart and update UI
+    loadCartFromStorage();
+    updateAuthUI();
+    showNotification('You have been logged out');
+}
+
+// Check for saved user session on page load
+function checkSavedSession() {
+    const savedUser = localStorage.getItem('soulReapersUser');
+    if (savedUser) {
+        try {
+            currentUser = JSON.parse(savedUser);
+            loadCartFromStorage(); // Load user's cart
+            updateAuthUI();
+            showNotification('Welcome back to Soul Reapers!');
+        } catch (e) {
+            console.error('Error parsing saved user data:', e);
+            localStorage.removeItem('soulReapersUser');
+        }
+    }
+}
+
+// Close modals when clicking outside
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('active');
+    }
+});
+
+// Initialize auth UI and check for saved session
+document.addEventListener('DOMContentLoaded', function() {
+    checkSavedSession();
+    loadCartFromStorage();
+    updateAuthUI();
+});
+
+// Shopping Cart Functionality
+let shoppingCart = [];
+let cartOpen = false;
+
+// Load cart from localStorage on page load
+function loadCartFromStorage() {
+    const cartKey = getCurrentUserCartKey();
+    const savedCart = localStorage.getItem(cartKey);
+    if (savedCart) {
+        try {
+            shoppingCart = JSON.parse(savedCart);
+            updateCartUI();
+        } catch (e) {
+            console.error('Error loading cart from storage:', e);
+            shoppingCart = [];
+        }
+    }
+}
+
+// Save cart to localStorage
+function saveCartToStorage() {
+    const cartKey = getCurrentUserCartKey();
+    localStorage.setItem(cartKey, JSON.stringify(shoppingCart));
+}
+
+// Get user-specific cart key
+function getCurrentUserCartKey() {
+    if (currentUser && currentUser.email) {
+        return `soulReapersCart_${currentUser.email}`;
+    }
+    return 'soulReapersCart_guest';
+}
+
+function addToCart(name, price, image, url) {
+    const existingItem = shoppingCart.find(item => item.name === name);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        shoppingCart.push({
+            name: name,
+            price: price,
+            image: image,
+            url: url,
+            quantity: 1
+        });
+    }
+    
+    saveCartToStorage();
+    updateCartUI();
+    showNotification(`${name} added to cart!`);
+}
+
+function removeFromCart(name) {
+    shoppingCart = shoppingCart.filter(item => item.name !== name);
+    saveCartToStorage();
+    updateCartUI();
+}
+
+function updateQuantity(name, change) {
+    const item = shoppingCart.find(item => item.name === name);
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            removeFromCart(name);
+        } else {
+            saveCartToStorage();
+            updateCartUI();
+        }
+    }
+}
+
+function updateCartUI() {
+    const cartCount = document.querySelector('.cart-count');
+    const cartDropdown = document.getElementById('cartDropdown');
+    
+    // Update cart count
+    const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+    cartCount.textContent = totalItems;
+    
+    // Update cart dropdown
+    if (shoppingCart.length === 0) {
+        cartDropdown.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+    } else {
+        let cartHTML = '';
+        let total = 0;
+        
+        shoppingCart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            
+            cartHTML += `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="cart-quantity-btn" onclick="updateQuantity('${item.name}', -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="cart-quantity-btn" onclick="updateQuantity('${item.name}', 1)">+</button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        cartHTML += `
+            <div class="cart-total">
+                <span>Total:</span>
+                <span>$${total.toFixed(2)}</span>
+            </div>
+            <div class="cart-checkout-options">
+                ${shoppingCart.map(item => `
+                    <button class="cart-item-checkout" onclick="checkoutItem('${item.name}', '${item.url}')">
+                        Checkout ${item.name}
+                    </button>
+                `).join('')}
+                <button class="cart-checkout-btn" onclick="checkoutAll()">Checkout All Items</button>
+            </div>
+        `;
+        
+        cartDropdown.innerHTML = cartHTML;
+    }
+}
+
+function checkoutItem(name, url) {
+    window.open(url, '_blank');
+    showNotification(`Opening checkout for ${name}...`);
+}
+
+function checkoutAll() {
+    if (shoppingCart.length === 0) {
+        showNotification('Your cart is empty!');
+        return;
+    }
+    
+    // Open all product URLs in new tabs
+    shoppingCart.forEach(item => {
+        if (item.url) {
+            window.open(item.url, '_blank');
+        }
+    });
+    
+    showNotification('Opening all checkouts...');
+}
+
+function toggleCart(event) {
+    event.preventDefault();
+    const cartDropdown = document.getElementById('cartDropdown');
+    cartOpen = !cartOpen;
+    
+    if (cartOpen) {
+        cartDropdown.classList.add('active');
+    } else {
+        cartDropdown.classList.remove('active');
+    }
+}
+
+function checkout() {
+    if (shoppingCart.length === 0) {
+        showNotification('Your cart is empty!');
+        return;
+    }
+    
+    // Build Exclaim.gg URL with cart items
+    const baseUrl = 'https://exclaim.gg/builder/?saved=gm5hzn7h';
+    
+    // Open checkout in new tab
+    window.open(baseUrl, '_blank');
+    
+    showNotification('Redirecting to checkout...');
+}
+
+// Close cart when clicking outside
+document.addEventListener('click', function(event) {
+    const cartDropdown = document.getElementById('cartDropdown');
+    const navCart = document.querySelector('.nav-cart');
+    
+    if (!navCart.contains(event.target) && !cartDropdown.contains(event.target)) {
+        cartDropdown.classList.remove('active');
+        cartOpen = false;
+    }
+});
+
+// Initialize cart UI
+updateCartUI();
