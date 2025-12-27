@@ -113,4 +113,5 @@ This project is open source and available under the MIT License.
 
 ---
 
-**Apex Esports - Redefining Competitive Gaming**
+**Soul Reapers Esports - Redefining Competitive Gaming**
+
