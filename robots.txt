@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://soulreapers.gg/sitemap.xml
+
+# Block common non-content directories
+Disallow: /assets/
+Disallow: /admin/
+Disallow: /private/
+
+# Allow specific important directories
+Allow: /assets/players/
+Allow: /assets/staff/
+Allow: /assets/owners/
