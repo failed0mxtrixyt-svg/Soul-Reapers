@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soul Reapers Esports | Schedule</title>
+    <meta
+      name="description"
+      content="Soul Reapers Esports schedule template with countdown timer, event categories, player planning, and admin controls for coaches and admins."
+    />
+    <style>
+      :root {
+        --bg: #090909;
+        --bg-soft: #111315;
+        --panel: rgba(18, 18, 20, 0.9);
+        --panel-strong: #17191d;
+        --card: #121518;
+        --card-alt: #181d22;
+        --line: rgba(255, 255, 255, 0.08);
+        --text: #edf3f7;
+        --muted: #a7b2bf;
+        --red: #ff2a42;
+        --red-bright: #ff4d63;
+        --red-dark: #9f1324;
+        --gold: #ffc857;
+        --blue: #3ac7ff;
+        --green: #3bd38a;
+        --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(255, 42, 66, 0.18), transparent 30%),
+          linear-gradient(180deg, #070809 0%, #0e0f12 100%);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      .container {
+        width: min(1200px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(14px);
+        background: rgba(8, 9, 10, 0.8);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 76px;
+        gap: 18px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--red), #571217);
+        box-shadow: 0 0 18px rgba(255, 42, 66, 0.4);
+        font-size: 0.78rem;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        color: var(--muted);
+        font-size: 0.93rem;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--text);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .status-pill,
+      .soft-button,
+      .primary-button,
+      .danger-button,
+      .tag {
+        border-radius: 999px;
+        border: 1px solid transparent;
+        transition: 0.2s ease;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 14px;
+        background: rgba(61, 214, 128, 0.08);
+        border-color: rgba(59, 211, 138, 0.3);
+        color: #b7ffd9;
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .status-pill::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 12px rgba(59, 211, 138, 0.9);
+      }
+
+      .soft-button,
+      .primary-button,
+      .danger-button {
+        cursor: pointer;
+        padding: 12px 18px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .soft-button {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: var(--line);
+        color: var(--text);
+      }
+
+      .primary-button {
+        background: linear-gradient(135deg, var(--red), var(--red-bright));
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(255, 42, 66, 0.25);
+      }
+
+      .danger-button {
+        background: rgba(255, 42, 66, 0.08);
+        color: #ffc8cf;
+        border-color: rgba(255, 42, 66, 0.35);
+      }
+
+      .soft-button:hover,
+      .primary-button:hover,
+      .danger-button:hover {
+        transform: translateY(-1px);
+      }
+
+      .hero {
+        padding: 64px 0 40px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+        align-items: stretch;
+      }
+
+      .hero-copy,
+      .countdown-card,
+      .category-card,
+      .event-card,
+      .admin-card,
+      .panel-box {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero-copy {
+        padding: 36px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-copy::after {
+        content: "";
+        position: absolute;
+        inset: auto -70px -60px auto;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 42, 66, 0.28), transparent 65%);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        color: #ffb0b9;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 28px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--red), transparent);
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: clamp(2.3rem, 5vw, 4.2rem);
+        line-height: 0.96;
+        letter-spacing: -0.05em;
+      }
+
+      h1 span {
+        color: var(--red-bright);
+      }
+
+      .hero-copy p {
+        max-width: 620px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 1.02rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .mini-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .stat-box {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px 12px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .stat-box strong {
+        display: block;
+        font-size: 1.5rem;
+        margin-bottom: 6px;
+      }
+
+      .stat-box span {
+        color: var(--muted);
+        font-size: 0.76rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .countdown-card {
+        padding: 28px 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .low-label {
+        color: #ffb3bc;
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .countdown-title {
+        margin: 8px 0 22px;
+        font-size: clamp(1.8rem, 3vw, 2.4rem);
+        line-height: 1.1;
+      }
+
+      .countdown-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin: 22px 0 18px;
+      }
+
+      .time-box {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px 10px;
+        text-align: center;
+      }
+
+      .time-box strong {
+        display: block;
+        font-size: clamp(1.5rem, 2vw, 2rem);
+      }
+
+      .time-box span {
+        color: var(--muted);
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .event-note {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .section {
+        padding: 18px 0 34px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+
+      .section-header h2 {
+        margin: 0;
+        font-size: clamp(1.6rem, 2.1vw, 2.3rem);
+        letter-spacing: -0.04em;
+      }
+
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .category-card {
+        padding: 20px 18px;
+      }
+
+      .category-icon {
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: rgba(255, 42, 66, 0.1);
+        border: 1px solid rgba(255, 42, 66, 0.2);
+        color: var(--red-bright);
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+      }
+
+      .category-card h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .category-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 0.9rem;
+      }
+
+      .category-card .meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 10px;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: rgba(255, 255, 255, 0.02);
+        border-color: var(--line);
+        color: var(--text);
+      }
+
+      .tag.red {
+        background: rgba(255, 42, 66, 0.08);
+        border-color: rgba(255, 42, 66, 0.26);
+        color: #ffc7ce;
+      }
+
+      .scheduling-layout {
+        display: grid;
+        grid-template-columns: 1.55fr 0.75fr;
+        gap: 22px;
+        align-items: start;
+      }
+
+      .panel-box {
+        padding: 22px;
+      }
+
+      .schedule-list {
+        display: grid;
+        gap: 18px;
+      }
+
+      .event-card {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 110px 1fr auto;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .event-date {
+        background: linear-gradient(180deg, rgba(255, 42, 66, 0.12), rgba(255, 42, 66, 0.02));
+        border: 1px solid rgba(255, 42, 66, 0.25);
+        border-radius: 18px;
+        padding: 14px 10px;
+        text-align: center;
+      }
+
+      .event-date strong {
+        display: block;
+        font-size: 2rem;
+        line-height: 1;
+        letter-spacing: -0.05em;
+      }
+
+      .event-date span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .event-main {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .event-main h3 {
+        margin: 0;
+        font-size: 1.24rem;
+      }
+
+      .event-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .event-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 9px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .event-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .mini-btn {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 10px;
+        cursor: pointer;
+      }
+
+      .mini-btn.delete {
+        border-color: rgba(255, 42, 66, 0.28);
+        color: #ffc4cb;
+      }
+
+      .admin-card {
+        padding: 22px;
+      }
+
+      .admin-card.hidden {
+        display: none;
+      }
+
+      .role-switcher {
+        display: flex;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.02);
+        overflow: hidden;
+        margin-bottom: 18px;
+      }
+
+      .role-option {
+        flex: 1;
+        padding: 12px 10px;
+        text-align: center;
+        background: transparent;
+        border: none;
+        color: var(--muted);
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .role-option.active {
+        background: rgba(255, 42, 66, 0.12);
+        color: var(--text);
+      }
+
+      .admin-form {
+        display: grid;
+        gap: 14px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .field label {
+        color: var(--muted);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .field input,
+      .field select,
+      .field textarea {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px 14px;
+      }
+
+      .field textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .admin-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 8px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .scheduling-layout,
+        .category-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .category-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .nav {
+          flex-wrap: wrap;
+          padding: 12px 0;
+        }
+
+        .nav-links {
+          order: 3;
+          width: 100%;
+          justify-content: space-between;
+          overflow-x: auto;
+          padding-bottom: 8px;
+        }
+
+        .hero-copy,
+        .countdown-card,
+        .panel-box,
+        .admin-card {
+          padding: 20px 16px;
+        }
+
+        .mini-stats,
+        .countdown-grid,
+        .form-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .event-card {
+          grid-template-columns: 1fr;
+          text-align: left;
+        }
+
+        .event-date {
+          width: min(120px, 100%);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .nav-actions {
+          width: 100%;
+          justify-content: flex-end;
+        }
+
+        .hero-actions,
+        .admin-actions,
+        .section-header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .mini-stats,
+        .countdown-grid,
+        .category-grid,
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="theme.css?v=2" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <div class="brand">
+          <div class="brand-mark">SRE</div>
+          <span>Soul Reapers</span>
+        </div>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="/" >Home</a>
+          <a href="/schedule" class="active">Schedule</a>
+          <a href="/rosters.html">Rosters</a>
+          <a href="/staff.html">Staff</a>
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Community</a>
+        </nav>
+
+        <div class="nav-actions">
+          <span class="status-pill">Ops live</span>
+          <a id="login-link" href="/login?next=%2Fschedule" class="soft-button" style="display:inline-flex; align-items:center; justify-content:center;">Log in</a>
+          <button id="toggle-admin" class="soft-button" type="button">Manage Schedule</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Competition calendar</div>
+            <h1>Build the next <span>win</span> with precision.</h1>
+            <p>
+              Track scrims, tactical reviews, tournament windows, and player availability in one
+              streamlined operations board built for Soul Reapers Esports.
+            </p>
+
+            <div class="hero-actions">
+              <a class="primary-button" href="#player-schedule">View Player Schedule</a>
+              <a class="soft-button" href="#event-categories">Event Categories</a>
+            </div>
+
+            <div class="mini-stats">
+              <div class="stat-box">
+                <strong>14</strong>
+                <span>Sessions</span>
+              </div>
+              <div class="stat-box">
+                <strong>6</strong>
+                <span>Players</span>
+              </div>
+              <div class="stat-box">
+                <strong>92%</strong>
+                <span>Prep rate</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="countdown-card">
+            <div>
+              <div class="low-label">Next event</div>
+              <h2 id="next-event-title" class="countdown-title">Premier League Night</h2>
+            </div>
+
+            <div id="countdown" class="countdown-grid" aria-live="polite">
+              <div class="time-box">
+                <strong id="days">00</strong>
+                <span>Days</span>
+              </div>
+              <div class="time-box">
+                <strong id="hours">00</strong>
+                <span>Hours</span>
+              </div>
+              <div class="time-box">
+                <strong id="minutes">00</strong>
+                <span>Minutes</span>
+              </div>
+              <div class="time-box">
+                <strong id="seconds">00</strong>
+                <span>Seconds</span>
+              </div>
+            </div>
+
+            <div class="event-note">
+              <span id="next-event-meta">Map pool: Bank / Villa</span>
+              <span id="next-event-time">7:00 PM EST</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="event-categories">
+        <div class="section-header">
+          <h2>Event categories</h2>
+          <span class="tag">Operations board</span>
+        </div>
+
+        <div id="categories" class="category-grid"></div>
+      </section>
+
+      <section class="section scheduling-layout" id="player-schedule">
+        <div class="panel-box">
+          <div class="section-header">
+            <h2>Player schedule</h2>
+            <span id="schedule-badge" class="tag red">Team ready</span>
+          </div>
+
+          <div id="schedule-list" class="schedule-list"></div>
+        </div>
+
+        <aside id="admin-panel" class="admin-card hidden" aria-live="polite">
+          <div class="section-header" style="margin-bottom: 14px;">
+            <h2>Admin panel</h2>
+            <span class="tag" id="permission-tag">Coach access</span>
+          </div>
+
+          <form id="event-form" class="admin-form">
+            <input type="hidden" id="event-id" />
+
+            <div class="field">
+              <label for="title">Event title</label>
+              <input id="title" type="text" placeholder="Example: VOD Review" required />
+            </div>
+
+            <div class="field">
+              <label for="player">Player / Group</label>
+              <input id="player" type="text" placeholder="Example: Dehhleon + q_aNt4m." required />
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="category">Category</label>
+                <select id="category">
+                  <option value="Scrim">Scrim</option>
+                  <option value="Training">Training</option>
+                  <option value="Review">Review</option>
+                  <option value="Tournament">Tournament</option>
+                  <option value="Travel">Travel</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="team">Team</label>
+                <select id="team">
+                  <option value="Main Roster">Main Roster</option>
+                  <option value="Academy">Academy</option>
+                  <option value="Staff">Staff</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="date">Date</label>
+                <input id="date" type="date" required />
+              </div>
+
+              <div class="field">
+                <label for="time">Time</label>
+                <input id="time" type="time" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="location">Location</label>
+              <input id="location" type="text" placeholder="Discord / Arena / Online" required />
+            </div>
+
+            <div class="field">
+              <label for="notes">Notes</label>
+              <textarea id="notes" placeholder="Focus, callouts, map notes, or attendance details..."></textarea>
+            </div>
+
+            <div class="admin-actions">
+              <button type="button" class="danger-button" id="reset-form">Reset</button>
+              <button type="submit" class="primary-button">Save event</button>
+            </div>
+          </form>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const categoryMeta = {
+        Scrim: { icon: "⚔️", label: "Competitive prep", color: "red" },
+        Training: { icon: "🏋️", label: "Skill focus", color: "red" },
+        Review: { icon: "📊", label: "Tactical analysis", color: "red" },
+        Tournament: { icon: "🏆", label: "Match day", color: "red" },
+        Travel: { icon: "✈️", label: "Logistics", color: "red" }
+      };
+
+      const scheduleList = document.getElementById("schedule-list");
+      const categories = document.getElementById("categories");
+      const adminPanel = document.getElementById("admin-panel");
+      const toggleAdmin = document.getElementById("toggle-admin");
+      const loginLink = document.getElementById("login-link");
+      const permissionTag = document.getElementById("permission-tag");
+      const scheduleBadge = document.getElementById("schedule-badge");
+      const form = document.getElementById("event-form");
+      const eventFormTitle = document.getElementById("title");
+      const eventFormPlayer = document.getElementById("player");
+      const eventFormCategory = document.getElementById("category");
+      const eventFormTeam = document.getElementById("team");
+      const eventFormDate = document.getElementById("date");
+      const eventFormTime = document.getElementById("time");
+      const eventFormLocation = document.getElementById("location");
+      const eventFormNotes = document.getElementById("notes");
+      const eventIdInput = document.getElementById("event-id");
+      let currentUser = null;
+
+      document.querySelectorAll('.hero-actions a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+          const target = document.querySelector(link.getAttribute('href'));
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', link.getAttribute('href'));
+        });
+      });
+
+      async function fetchJson(url, options = {}) {
+        const response = await fetch(url, {
+          credentials: "same-origin",
+          ...options,
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.detail || "Request failed");
+        }
+        return data;
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString + "T00:00:00");
+        return new Intl.DateTimeFormat("en-US", { month: "short" }).format(date);
+      }
+
+      function formatDay(dateString) {
+        const date = new Date(dateString + "T00:00:00");
+        return date.getDate();
+      }
+
+      function setRole(role) {
+        const label = role === "owner" ? "Owner access" : role === "admin" ? "Admin access" : role === "coach" ? "Coach access" : "Viewer access";
+        permissionTag.textContent = label;
+        scheduleBadge.textContent = role === "viewer" ? "Read only" : "Team ready";
+      }
+
+      function canEdit() {
+        return currentUser && ["admin", "owner", "coach"].includes(currentUser.role);
+      }
+
+      async function checkAuth() {
+        try {
+          const data = await fetchJson("/api/auth/me");
+          currentUser = data.user;
+          loginLink.textContent = currentUser.role === "owner" ? "Owner portal" : currentUser.role === "admin" ? "Admin portal" : currentUser.role === "coach" ? "Coach portal" : "Account";
+          loginLink.href = currentUser.role === "owner" ? "/owner" : currentUser.role === "admin" ? "/admin" : currentUser.role === "coach" ? "/coach" : "/";
+          setRole(currentUser.role || "viewer");
+          adminPanel.classList.toggle("hidden", !canEdit());
+          return true;
+        } catch (error) {
+          currentUser = null;
+          loginLink.textContent = "Log in";
+          loginLink.href = "/login?next=%2Fschedule";
+          setRole("viewer");
+          adminPanel.classList.add("hidden");
+          return false;
+        }
+      }
+
+      async function loadSchedule() {
+        try {
+          const data = await fetchJson("/api/schedule");
+          const schedule = data.events || [];
+          renderCategories(schedule);
+          renderSchedule(schedule);
+          updateCountdown(schedule);
+        } catch (error) {
+          scheduleList.innerHTML = '<div class="event-card"><div class="event-main"><h3>No events available</h3><p style="color: var(--muted); margin: 0;">Check back later or log in to manage the calendar.</p></div></div>';
+          categories.innerHTML = "";
+        }
+      }
+
+      function renderCategories(schedule) {
+        const counts = Object.keys(categoryMeta).reduce((acc, key) => ({ ...acc, [key]: 0 }), {});
+        schedule.forEach((item) => {
+          if (counts[item.category] !== undefined) counts[item.category] += 1;
+        });
+
+        categories.innerHTML = Object.entries(categoryMeta)
+          .map(([name, meta]) => {
+            const count = counts[name] || 0;
+            return `
+              <article class="category-card">
+                <div class="category-icon">${meta.icon}</div>
+                <h3>${name}</h3>
+                <p>${meta.label}</p>
+                <div class="meta">
+                  <span class="tag ${meta.color}">${count} items</span>
+                  <span>${count ? count + " planned" : "No data"}</span>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function renderSchedule(schedule) {
+        if (!schedule.length) {
+          scheduleList.innerHTML = '<div class="event-card"><div class="event-main"><h3>No events scheduled</h3><p style="color: var(--muted); margin: 0;">Create a session from the dashboard.</p></div></div>';
+          return;
+        }
+
+        const sorted = [...schedule].sort((a, b) => new Date(a.date + "T" + a.time) - new Date(b.date + "T" + b.time));
+
+        scheduleList.innerHTML = sorted
+          .map((event) => `
+            <article class="event-card">
+              <div class="event-date">
+                <strong>${formatDay(event.date)}</strong>
+                <span>${formatDate(event.date)}</span>
+              </div>
+              <div class="event-main">
+                <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                  <span class="tag red">${event.category}</span>
+                  <span class="tag">${event.team}</span>
+                </div>
+                <h3>${event.title}</h3>
+                <div class="event-meta">
+                  <span>🎮 ${event.player}</span>
+                  <span>🕒 ${event.time}</span>
+                  <span>📍 ${event.location}</span>
+                </div>
+                ${event.notes ? `<p style="margin:0; color: var(--muted); line-height:1.6;">${event.notes}</p>` : ""}
+              </div>
+              <div class="event-actions">
+                ${canEdit() ? `
+                  <button type="button" class="mini-btn edit-btn" data-id="${event.id}">Edit</button>
+                  <button type="button" class="mini-btn delete" data-id="${event.id}">Delete</button>
+                ` : ""}
+              </div>
+            </article>
+          `)
+          .join("");
+
+        document.querySelectorAll(".edit-btn").forEach((button) => {
+          button.addEventListener("click", () => fillForm(Number(button.dataset.id), sorted));
+        });
+
+        document.querySelectorAll(".mini-btn.delete").forEach((button) => {
+          button.addEventListener("click", () => deleteEvent(Number(button.dataset.id)));
+        });
+      }
+
+      function fillForm(id, schedule) {
+        const event = schedule.find((item) => item.id === id);
+        if (!event) return;
+
+        eventIdInput.value = event.id;
+        eventFormTitle.value = event.title;
+        eventFormPlayer.value = event.player;
+        eventFormCategory.value = event.category;
+        eventFormTeam.value = event.team;
+        eventFormDate.value = event.date;
+        eventFormTime.value = event.time;
+        eventFormLocation.value = event.location;
+        eventFormNotes.value = event.notes || "";
+        adminPanel.classList.remove("hidden");
+      }
+
+      async function deleteEvent(id) {
+        if (!canEdit()) return;
+        try {
+          await fetchJson(`/api/admin/schedule/${id}`, { method: "DELETE" });
+          await loadSchedule();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      function resetForm() {
+        form.reset();
+        eventIdInput.value = "";
+        eventFormCategory.value = "Scrim";
+        eventFormTeam.value = "Main Roster";
+      }
+
+      function updateCountdown(schedule) {
+        const nextEvent = schedule
+          .map((item) => ({ ...item, timestamp: new Date(item.date + "T" + item.time).getTime() }))
+          .filter((item) => item.timestamp > Date.now())
+          .sort((a, b) => a.timestamp - b.timestamp)[0];
+
+        const nextTitle = document.getElementById("next-event-title");
+        const nextMeta = document.getElementById("next-event-meta");
+        const nextTime = document.getElementById("next-event-time");
+
+        if (!nextEvent) {
+          nextTitle.textContent = "No upcoming events";
+          nextMeta.textContent = "Check the admin dashboard to add one";
+          nextTime.textContent = "--:--";
+          document.getElementById("days").textContent = "00";
+          document.getElementById("hours").textContent = "00";
+          document.getElementById("minutes").textContent = "00";
+          document.getElementById("seconds").textContent = "00";
+          return;
+        }
+
+        nextTitle.textContent = nextEvent.title;
+        nextMeta.textContent = `${nextEvent.player} • ${nextEvent.location}`;
+        nextTime.textContent = new Date(nextEvent.date + "T" + nextEvent.time).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+
+        const target = new Date(nextEvent.date + "T" + nextEvent.time);
+        const diff = target - Date.now();
+        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        const hours = Math.max(0, Math.floor((diff / (1000 * 60 * 60)) % 24));
+        const minutes = Math.max(0, Math.floor((diff / (1000 * 60)) % 60));
+        const seconds = Math.max(0, Math.floor((diff / 1000) % 60));
+
+        document.getElementById("days").textContent = String(days).padStart(2, "0");
+        document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+        document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+        document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!canEdit()) {
+          alert("Only coaches, admins, and owners can edit the schedule.");
+          return;
+        }
+
+        const payload = {
+          title: eventFormTitle.value.trim(),
+          player: eventFormPlayer.value.trim(),
+          category: eventFormCategory.value,
+          team: eventFormTeam.value,
+          date: eventFormDate.value,
+          time: eventFormTime.value,
+          location: eventFormLocation.value.trim(),
+          notes: eventFormNotes.value.trim()
+        };
+        const eventId = eventIdInput.value;
+
+        try {
+          const response = await fetchJson(eventId ? `/api/admin/schedule/${eventId}` : "/api/admin/schedule", {
+            method: eventId ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (response && response.message) {
+            resetForm();
+            await loadSchedule();
+          }
+        } catch (error) {
+          console.error(error);
+          alert(error.message);
+        }
+      });
+
+      toggleAdmin.addEventListener("click", async () => {
+        const isLoggedIn = await checkAuth();
+        if (!isLoggedIn || !canEdit()) {
+          window.location.href = "/login?next=%2Fschedule%23player-schedule";
+          return;
+        }
+        const isVisible = !adminPanel.classList.contains("hidden");
+        adminPanel.classList.toggle("hidden", isVisible);
+      });
+
+      document.getElementById("reset-form").addEventListener("click", () => {
+        resetForm();
+      });
+
+      async function init() {
+        await checkAuth();
+        await loadSchedule();
+        setInterval(() => loadSchedule(), 20000);
+      }
+
+      init();
+    </script>
+  </body>
+</html>

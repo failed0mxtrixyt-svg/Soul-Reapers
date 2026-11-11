@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | Soul Reapers Esports</title>
+    <style>
+      :root {
+        --bg: #090909;
+        --bg-soft: #0f1114;
+        --panel: rgba(17,17,20,0.96);
+        --panel-soft: #13171b;
+        --line: rgba(255,255,255,0.08);
+        --text: #edf3f7;
+        --muted: #a6b0b9;
+        --red: #ff2a42;
+        --red-bright: #ff4d63;
+        --green: #2ee39a;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, rgba(255, 42, 66, 0.2), transparent 25%), #090909;
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .container { width: min(1200px, calc(100% - 26px)); margin: 0 auto; }
+      .topbar {
+        display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); background: rgba(9,9,9,0.9); position: sticky; top: 0; backdrop-filter: blur(12px);
+      }
+      .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+      .brand-mark { width: 42px; height: 42px; border-radius: 12px; display:grid; place-items:center; background: linear-gradient(135deg, var(--red), #5d1018); }
+      .nav { display: flex; align-items: center; gap: 14px; }
+      .button, button {
+        border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; background: rgba(255,255,255,0.02); color: var(--text); cursor: pointer; font-weight: 700; text-decoration: none; display: inline-flex; align-items:center; justify-content:center;
+      }
+      .button.primary, .save-btn {
+        background: linear-gradient(135deg, var(--red), var(--red-bright)); border: none; box-shadow: 0 10px 24px rgba(255,42,66,0.25); 
+      }
+      .page { padding: 28px 0 60px; }
+      .header-grid { display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 18px; margin-bottom: 20px; }
+      .grid > *, .header-grid > * { min-width: 0; }
+      .panel {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 20px; box-shadow: 0 18px 50px rgba(0,0,0,0.4);
+      }
+      .eyebrow { color: #ffb5bf; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+      h1, h2, h3 { margin-top: 0; }
+      h1 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 10px; }
+      .user-box { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .user-meta { color: var(--muted); }
+      .grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; }
+      form { display: grid; gap: 16px; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      label { display: grid; gap: 8px; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+      input, select, textarea {
+        width: 100%; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 12px; color: var(--text); padding: 12px 14px;
+      }
+      textarea { min-height: 120px; resize: vertical; }
+      .status { min-height: 22px; color: #ffb5bf; margin-top: 4px; }
+      .status.success { color: #9bf7c6; }
+      table {
+        display: block; width: 100%; max-width: 100%; overflow-x: auto; white-space: nowrap;
+        border-collapse: collapse; margin-top: 14px; border-radius: 12px; border: 1px solid var(--line);
+      }
+      th, td {
+        border-bottom: 1px solid var(--line); padding: 12px 10px; text-align: left; font-size: 0.94rem; vertical-align: top;
+      }
+      th { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+      .tag { display: inline-flex; align-items: center; padding: 7px 10px; border-radius: 999px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; }
+      .tag.admin, .tag.owner { background: rgba(255,42,66,0.12); color: #ffc7ce; border: 1px solid rgba(255,42,66,0.3); }
+      .tag.coach { background: rgba(46,227,154,0.12); color: #b8f7d6; border: 1px solid rgba(46,227,154,0.2); }
+      .tag.viewer { background: rgba(255,255,255,0.04); color: var(--text); border: 1px solid var(--line); }
+      .danger { background: rgba(255,42,66,0.1); border-color: rgba(255,42,66,0.25); }
+      @media (max-width: 900px) { .header-grid, .grid { grid-template-columns: 1fr; } }
+    </style>
+    <link rel="stylesheet" href="theme.css?v=2">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container" style="display:flex; justify-content:space-between; align-items:center; width:min(1200px, calc(100% - 26px));">
+        <div class="brand"><div class="brand-mark">SRE</div><span>Soul Reapers</span></div>
+        <nav class="nav">
+          <a class="button" href="/">Home</a>
+          <a class="button" href="/rosters.html">Rosters</a>
+          <a class="button" href="/staff.html">Staff</a>
+          <a class="button" href="/schedule">Schedule</a>
+          <button id="logout-btn" type="button">Log out</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container page">
+      <div class="header-grid">
+        <section class="panel">
+          <div class="eyebrow" id="portal-eyebrow">Administration</div>
+          <h1 id="portal-title">Operations dashboard</h1>
+          <div class="user-box">
+            <div>
+              <div id="welcome-name">Loading...</div>
+              <div id="user-role" class="user-meta">Loading role...</div>
+            </div>
+            <span id="role-tag" class="tag admin">Admin</span>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="eyebrow">System</div>
+          <h2>Next event</h2>
+          <div id="signal-box" class="user-meta">Syncing calendar...</div>
+        </aside>
+      </div>
+
+      <div class="grid">
+        <section class="panel" data-edit-permission>
+          <div class="eyebrow">Schedule editor</div>
+          <h2>Add / update event</h2>
+          <form id="event-form">
+            <input id="event-id" type="hidden" />
+            <div class="row">
+              <label>
+                Event title
+                <input id="title" type="text" required />
+              </label>
+              <label>
+                Player / group
+                <input id="player" type="text" required />
+              </label>
+            </div>
+            <div class="row">
+              <label>
+                Category
+                <select id="category">
+                  <option value="Scrim">Scrim</option>
+                  <option value="Training">Training</option>
+                  <option value="Review">Review</option>
+                  <option value="Tournament">Tournament</option>
+                  <option value="Travel">Travel</option>
+                </select>
+              </label>
+              <label>
+                Team
+                <select id="team">
+                  <option value="Main Roster">Main Roster</option>
+                  <option value="Academy">Academy</option>
+                  <option value="Staff">Staff</option>
+                </select>
+              </label>
+            </div>
+            <div class="row">
+              <label>
+                Date
+                <input id="date" type="date" required />
+              </label>
+              <label>
+                Time
+                <input id="time" type="time" required />
+              </label>
+            </div>
+            <label>
+              Location
+              <input id="location" type="text" required />
+            </label>
+            <label>
+              Notes
+              <textarea id="notes" placeholder="Session notes, objectives, or player-specific focus..."></textarea>
+            </label>
+            <div style="display:flex; justify-content:flex-end; gap:12px;">
+              <button type="button" class="danger" id="reset-form">Reset</button>
+              <button type="submit" class="save-btn">Save event</button>
+            </div>
+            <div id="form-status" class="status" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <aside class="panel" data-owner-only>
+          <div class="eyebrow">Users</div>
+          <h2>Accounts</h2>
+          <div id="user-table-wrap"></div>
+        </aside>
+      </div>
+
+      <section class="panel" style="margin-top: 20px;" data-edit-permission>
+        <div class="eyebrow">Calendar</div>
+        <h2>Current schedule</h2>
+        <div id="schedule-grid"></div>
+      </section>
+
+      <section class="panel roster-admin-panel" style="margin-top: 20px;" data-edit-permission>
+        <div class="eyebrow">Team management</div>
+        <h2>Roster editor</h2>
+        <p class="user-meta">Update player cards here. Changes appear immediately on the public Rosters page.</p>
+        <form id="roster-form">
+          <input id="roster-player-id" type="hidden" />
+          <div class="row">
+            <label>Player name<input id="roster-name" type="text" maxlength="80" required /></label>
+            <label>In-game role<input id="roster-role" type="text" maxlength="80" placeholder="IGL, Entry, Support..." required /></label>
+          </div>
+          <label>Discord name<input id="roster-discord" type="text" maxlength="100" placeholder="username or username#0000" /></label>
+          <div class="row">
+            <label>Roster / team
+              <select id="roster-team" required>
+                <option value="Main R6 Roster">Main R6 Roster</option>
+                <option value="Main R6 Roster Subs">Main R6 Roster Subs</option>
+                <option value="Academy R6 Roster">Academy R6 Roster</option>
+                <option value="Academy Roster Subs">Academy Roster Subs</option>
+                <option value="Apex Roster">Apex Roster</option>
+              </select>
+            </label>
+            <label>Real name (optional)<input id="roster-real-name" type="text" maxlength="120" /></label>
+          </div>
+          <label>Player image path or HTTPS URL
+            <input id="roster-image" type="text" maxlength="500" placeholder="assets/your-photo.png or https://..." />
+          </label>
+          <div style="display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap;">
+            <button type="button" class="danger" id="roster-reset">Clear form</button>
+            <button type="submit" class="save-btn" id="roster-save">Add player</button>
+          </div>
+          <div id="roster-status" class="status" aria-live="polite"></div>
+        </form>
+        <div id="roster-admin-list"></div>
+      </section>
+
+      <section class="panel" style="margin-top: 20px;" data-edit-permission>
+        <div class="eyebrow">Website content</div>
+        <h2>Page copy and links</h2>
+        <p class="user-meta">Update homepage, about, and contact copy and social/contact links. Changes publish immediately.</p>
+        <form id="content-form">
+          <div id="content-fields"></div>
+          <div style="display:flex; justify-content:flex-end;"><button class="save-btn" type="submit">Save website content</button></div>
+          <div id="content-status" class="status" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <section class="panel" style="margin-top: 20px;" data-edit-permission>
+        <div class="eyebrow">Organization</div>
+        <h2>Staff and owners</h2>
+        <form id="member-form">
+          <input id="member-id" type="hidden" />
+          <div class="row">
+            <label>Profile type<select id="member-kind"><option value="staff">Staff</option><option value="owner">Owner</option></select></label>
+            <label>Name<input id="member-name" type="text" maxlength="100" required /></label>
+          </div>
+          <div class="row">
+            <label>Role / title<input id="member-title" type="text" maxlength="120" required /></label>
+            <label>Discord / contact<input id="member-contact" type="text" maxlength="160" /></label>
+          </div>
+          <label>Bio<textarea id="member-bio" maxlength="2000"></textarea></label>
+          <label>Image path or HTTPS URL<input id="member-image" type="text" maxlength="500" placeholder="assets/staff/photo.png" /></label>
+          <div class="row">
+            <label>Twitter / X URL<input id="member-twitter" type="url" placeholder="https://..." /></label>
+            <label>Twitch / Discord URL<input id="member-discord" type="url" placeholder="https://..." /></label>
+          </div>
+          <label>TikTok / YouTube URL<input id="member-tiktok" type="url" placeholder="https://..." /></label>
+          <div style="display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap;">
+            <button type="button" class="danger" id="member-reset">Clear form</button>
+            <button type="submit" class="save-btn" id="member-save">Add profile</button>
+          </div>
+          <div id="member-status" class="status" aria-live="polite"></div>
+        </form>
+        <div id="member-list"></div>
+      </section>
+
+      <section class="panel" style="margin-top: 20px;" data-admin-only>
+        <div class="eyebrow">Inbox</div>
+        <h2>Contact messages</h2>
+        <div id="contact-messages"></div>
+      </section>
+    </main>
+
+    <script>
+      const welcomeName = document.getElementById('welcome-name');
+      const userRole = document.getElementById('user-role');
+      const roleTag = document.getElementById('role-tag');
+      const signalBox = document.getElementById('signal-box');
+      const scheduleGrid = document.getElementById('schedule-grid');
+      const userTableWrap = document.getElementById('user-table-wrap');
+      const formStatus = document.getElementById('form-status');
+      const eventForm = document.getElementById('event-form');
+      const rosterForm = document.getElementById('roster-form');
+      const rosterStatus = document.getElementById('roster-status');
+      const rosterAdminList = document.getElementById('roster-admin-list');
+      const rosterFields = {
+        id: document.getElementById('roster-player-id'),
+        name: document.getElementById('roster-name'),
+        realName: document.getElementById('roster-real-name'),
+        role: document.getElementById('roster-role'),
+        team: document.getElementById('roster-team'),
+        image: document.getElementById('roster-image'),
+        discord: document.getElementById('roster-discord'),
+      };
+      let rosterPlayers = [];
+      const contentFields = document.getElementById('content-fields');
+      const contentStatus = document.getElementById('content-status');
+      const memberForm = document.getElementById('member-form');
+      const memberStatus = document.getElementById('member-status');
+      const memberList = document.getElementById('member-list');
+      let teamMembers = [];
+      const memberInputs = {
+        id: document.getElementById('member-id'), kind: document.getElementById('member-kind'),
+        name: document.getElementById('member-name'), title: document.getElementById('member-title'),
+        contact: document.getElementById('member-contact'), bio: document.getElementById('member-bio'),
+        image: document.getElementById('member-image'), twitter: document.getElementById('member-twitter'),
+        discord: document.getElementById('member-discord'), tiktok: document.getElementById('member-tiktok'),
+      };
+
+      const contentLabels = {
+        home_title: 'Home hero title', home_subtitle: 'Home hero subtitle', home_roster_button: 'Home roster button',
+        home_community_button: 'Home community button', about_title: 'About page title', about_subtitle: 'About page subtitle',
+        about_story_one: 'About story paragraph 1', about_story_two: 'About story paragraph 2', about_mission: 'Mission statement',
+        about_achievement: 'Achievement', about_stat_wins: 'Tournament wins statistic', about_stat_community: 'Community statistic',
+        about_stat_teams: 'Teams statistic', about_stat_founded: 'Founded year statistic',
+        about_value_excellence: 'Excellence value description', about_value_community: 'Community value description',
+        about_value_development: 'Development value description', contact_title: 'Contact page title', contact_subtitle: 'Contact page subtitle',
+        contact_heading: 'Contact heading', contact_intro: 'Contact introduction', discord_url: 'Discord URL',
+        twitter_url: 'Twitter / X URL', tiktok_url: 'TikTok URL', business_email: 'Business email',
+        tryouts_email: 'Tryouts email', media_email: 'Press / media email', privacy_updated: 'Privacy policy update date',
+        terms_updated: 'Terms update date'
+      };
+
+      function escapeHtml(value) {
+        return String(value || '').replace(/[&<>"']/g, (character) => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        })[character]);
+      }
+
+      async function fetchJson(url, options = {}) {
+        const response = await fetch(url, {
+          credentials: 'same-origin',
+          ...options,
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.detail || 'Request failed');
+        }
+        return data;
+      }
+
+      async function checkAuth() {
+        try {
+          const data = await fetchJson('/api/auth/me');
+          const user = data.user;
+          const ownerPortal = window.location.pathname === '/owner' || window.location.pathname === '/owner.html';
+          const adminPortal = window.location.pathname === '/admin' || window.location.pathname === '/admin.html';
+          if ((ownerPortal && user.role !== 'owner') || (adminPortal && !['admin', 'owner'].includes(user.role))) {
+            const portal = user.role === 'owner' ? '/owner' : user.role === 'admin' ? '/admin' : user.role === 'coach' ? '/coach' : '/';
+            window.location.replace(portal);
+            return null;
+          }
+          welcomeName.textContent = `Welcome, ${user.username}`;
+          userRole.textContent = `Role: ${user.role}`;
+          document.getElementById('portal-eyebrow').textContent = ownerPortal ? 'Organization ownership' : 'Site administration';
+          document.getElementById('portal-title').textContent = ownerPortal ? 'Owner portal' : 'Admin portal';
+          roleTag.textContent = user.role;
+          roleTag.className = `tag ${user.role}`;
+          document.querySelectorAll('[data-edit-permission]').forEach((section) => { section.hidden = false; });
+          document.querySelectorAll('[data-owner-only]').forEach((section) => { section.hidden = user.role !== 'owner'; });
+          return user;
+        } catch (error) {
+          window.location.href = '/login';
+          return null;
+        }
+      }
+
+      async function loadUsers() {
+        try {
+          const data = await fetchJson('/api/admin/users');
+          const users = data.users || [];
+          userTableWrap.innerHTML = `
+            <table>
+              <thead>
+                <tr><th>User</th><th>Email</th><th>Role</th><th>Access</th></tr>
+              </thead>
+              <tbody>
+                ${users.map(user => `
+                  <tr>
+                    <td>${escapeHtml(user.username)}</td>
+                    <td>${escapeHtml(user.email)}</td>
+                    <td><span class="tag ${user.role}">${user.role}</span></td>
+                      <td>${user.role === 'owner' ? 'Owner' : `<select data-user-role="${user.id}"><option value="viewer" ${user.role === 'viewer' ? 'selected' : ''}>Viewer</option><option value="coach" ${user.role === 'coach' ? 'selected' : ''}>Coach</option><option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option></select>`}</td>
+                  </tr>
+                `).join('') || '<tr><td colspan="3">No users found.</td></tr>'}
+              </tbody>
+            </table>
+          `;
+          userTableWrap.querySelectorAll('[data-user-role]').forEach((select) => {
+            select.addEventListener('change', async () => {
+              try {
+                await fetchJson(`/api/admin/users/${select.dataset.userRole}/role`, {
+                  method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ role: select.value }),
+                });
+                await loadUsers();
+              } catch (error) {
+                alert(error.message);
+                await loadUsers();
+              }
+            });
+          });
+        } catch (error) {
+          userTableWrap.innerHTML = '<p style="color: var(--muted);">Unable to load users.</p>';
+        }
+      }
+
+      async function loadSiteContent() {
+        try {
+          const { content } = await fetchJson('/api/content');
+          contentFields.innerHTML = Object.entries(contentLabels).map(([key, label]) => `
+            <label style="margin-bottom:14px;">${escapeHtml(label)}
+              ${key.endsWith('_one') || key.endsWith('_two') || key === 'about_mission' || key === 'contact_intro'
+                ? `<textarea data-content-key="${key}" rows="3">${escapeHtml(content[key] || '')}</textarea>`
+                : `<input data-content-key="${key}" type="text" value="${escapeHtml(content[key] || '')}" />`}
+            </label>
+          `).join('');
+        } catch (error) {
+          contentStatus.textContent = error.message;
+        }
+      }
+
+      document.getElementById('content-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const content = {};
+        contentFields.querySelectorAll('[data-content-key]').forEach((input) => { content[input.dataset.contentKey] = input.value; });
+        try {
+          const result = await fetchJson('/api/admin/content', {
+            method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content }),
+          });
+          contentStatus.textContent = result.message;
+          contentStatus.classList.add('success');
+        } catch (error) {
+          contentStatus.textContent = error.message;
+          contentStatus.classList.remove('success');
+        }
+      });
+
+      async function loadTeamMembers() {
+        try {
+          const data = await fetchJson('/api/admin/team-members');
+          teamMembers = data.members || [];
+          memberList.innerHTML = teamMembers.length ? `
+            <div style="overflow-x:auto;"><table>
+              <thead><tr><th>Type</th><th>Name</th><th>Role / title</th><th>Actions</th></tr></thead>
+              <tbody>${teamMembers.map((member) => `
+                <tr><td>${escapeHtml(member.kind)}</td><td>${escapeHtml(member.name)}</td><td>${escapeHtml(member.title)}</td>
+                <td style="white-space:nowrap;"><button type="button" data-member-edit="${member.id}">Edit</button> <button type="button" class="danger" data-member-delete="${member.id}">Delete</button></td></tr>
+              `).join('')}</tbody>
+            </table></div>` : '<p class="user-meta">No staff or owner profiles are listed.</p>';
+
+          memberList.querySelectorAll('[data-member-edit]').forEach((button) => button.addEventListener('click', () => {
+            const member = teamMembers.find((item) => item.id === Number(button.dataset.memberEdit));
+            if (!member) return;
+            memberInputs.id.value = member.id; memberInputs.kind.value = member.kind; memberInputs.name.value = member.name;
+            memberInputs.title.value = member.title || ''; memberInputs.contact.value = member.contact || '';
+            memberInputs.bio.value = member.bio || ''; memberInputs.image.value = member.image || '';
+            memberInputs.twitter.value = member.socials?.twitter || ''; memberInputs.discord.value = member.socials?.discord || member.socials?.twitch || '';
+            memberInputs.tiktok.value = member.socials?.tiktok || member.socials?.youtube || '';
+            document.getElementById('member-save').textContent = 'Save profile';
+            memberStatus.textContent = `Editing ${member.name}`;
+            memberForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }));
+
+          memberList.querySelectorAll('[data-member-delete]').forEach((button) => button.addEventListener('click', async () => {
+            const member = teamMembers.find((item) => item.id === Number(button.dataset.memberDelete));
+            if (!member || !confirm(`Delete ${member.name}'s profile?`)) return;
+            try { await fetchJson(`/api/admin/team-members/${member.id}`, { method: 'DELETE' }); await loadTeamMembers(); }
+            catch (error) { memberStatus.textContent = error.message; }
+          }));
+        } catch (error) { memberList.innerHTML = `<p class="user-meta">${escapeHtml(error.message)}</p>`; }
+      }
+
+      memberForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const memberId = memberInputs.id.value;
+        const payload = {
+          kind: memberInputs.kind.value, name: memberInputs.name.value.trim(), title: memberInputs.title.value.trim(),
+          contact: memberInputs.contact.value.trim(), bio: memberInputs.bio.value.trim(), image: memberInputs.image.value.trim(),
+          socials: { twitter: memberInputs.twitter.value.trim(), discord: memberInputs.discord.value.trim(), tiktok: memberInputs.tiktok.value.trim() },
+        };
+        try {
+          const result = await fetchJson(memberId ? `/api/admin/team-members/${memberId}` : '/api/admin/team-members', {
+            method: memberId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+          });
+          memberStatus.textContent = result.message; memberStatus.classList.add('success'); memberForm.reset(); memberInputs.id.value = '';
+          document.getElementById('member-save').textContent = 'Add profile'; await loadTeamMembers();
+        } catch (error) { memberStatus.textContent = error.message; memberStatus.classList.remove('success'); }
+      });
+
+      document.getElementById('member-reset').addEventListener('click', () => {
+        memberForm.reset(); memberInputs.id.value = ''; document.getElementById('member-save').textContent = 'Add profile'; memberStatus.textContent = '';
+      });
+
+      async function loadContactMessages() {
+        const container = document.getElementById('contact-messages');
+        try {
+          const data = await fetchJson('/api/admin/contact-messages');
+          const messages = data.messages || [];
+          container.innerHTML = messages.length ? `<div style="overflow-x:auto;"><table>
+            <thead><tr><th>From</th><th>Subject</th><th>Message</th><th>Received</th></tr></thead>
+            <tbody>${messages.map((message) => `<tr><td>${escapeHtml(message.name)}<br><a href="mailto:${escapeHtml(message.email)}">${escapeHtml(message.email)}</a></td><td>${escapeHtml(message.subject)}</td><td>${escapeHtml(message.message)}</td><td>${escapeHtml(message.created_at)}</td></tr>`).join('')}</tbody>
+          </table></div>` : '<p class="user-meta">No contact messages yet.</p>';
+        } catch (error) { container.innerHTML = `<p class="user-meta">${escapeHtml(error.message)}</p>`; }
+      }
+
+      async function loadSchedule() {
+        try {
+          const data = await fetchJson('/api/schedule');
+          const events = data.events || [];
+
+          if (!events.length) {
+            signalBox.textContent = 'No upcoming event';
+            scheduleGrid.innerHTML = '<p style="color: var(--muted); margin: 0;">No events yet. Add one from the form.</p>';
+            return;
+          }
+
+          const sorted = [...events].sort((a, b) => new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time));
+          const next = sorted[0];
+          signalBox.textContent = next ? `${next.title} • ${next.date} @ ${next.time}` : 'No upcoming event';
+
+          scheduleGrid.innerHTML = sorted.map(event => `
+            <div style="border:1px solid var(--line); border-radius:16px; padding:16px; margin-top:14px; background: rgba(255,255,255,0.02);">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                <h3 style="margin:0;">${event.title}</h3>
+                <span class="tag ${event.category === 'Tournament' ? 'admin' : 'coach'}">${event.category}</span>
+              </div>
+              <p style="margin: 10px 0; color: var(--muted);">${event.player} • ${event.team}</p>
+              <p style="margin:0; color: var(--muted);">${event.date} • ${event.time} • ${event.location}</p>
+              ${event.notes ? `<p style="margin-top:10px; color:var(--text);">${escapeHtml(event.notes)}</p>` : ''}
+              <div style="display:flex; gap:8px; margin-top:12px;">
+                <button type="button" data-event-edit="${event.id}">Edit</button>
+                <button type="button" class="danger" data-event-delete="${event.id}">Delete</button>
+              </div>
+            </div>
+          `).join('');
+          scheduleGrid.querySelectorAll('[data-event-edit]').forEach((button) => button.addEventListener('click', () => {
+            const event = events.find((item) => item.id === Number(button.dataset.eventEdit));
+            if (!event) return;
+            document.getElementById('event-id').value = event.id;
+            for (const field of ['title', 'player', 'category', 'team', 'date', 'time', 'location', 'notes']) {
+              document.getElementById(field).value = event[field] || '';
+            }
+            formStatus.textContent = `Editing ${event.title}`;
+            eventForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }));
+          scheduleGrid.querySelectorAll('[data-event-delete]').forEach((button) => button.addEventListener('click', async () => {
+            const event = events.find((item) => item.id === Number(button.dataset.eventDelete));
+            if (!event || !confirm(`Delete ${event.title}?`)) return;
+            try { await fetchJson(`/api/admin/schedule/${event.id}`, { method: 'DELETE' }); await loadSchedule(); }
+            catch (error) { formStatus.textContent = error.message; }
+          }));
+        } catch (error) {
+          scheduleGrid.innerHTML = `<p style="color: var(--muted);">${error.message}</p>`;
+        }
+      }
+
+      async function loadRosterPlayers() {
+        try {
+          const data = await fetchJson('/api/admin/rosters');
+          rosterPlayers = data.rosters || [];
+          if (!rosterPlayers.length) {
+            rosterAdminList.innerHTML = '<p class="user-meta">No roster players yet. Add the first player above.</p>';
+            return;
+          }
+          rosterAdminList.innerHTML = `
+            <div style="overflow-x:auto;">
+              <table>
+                <thead><tr><th>Player</th><th>Role</th><th>Roster</th><th>Discord</th><th>Photo</th><th>Actions</th></tr></thead>
+                <tbody>
+                  ${rosterPlayers.map((player) => `
+                    <tr>
+                      <td>${escapeHtml(player.name)}</td>
+                      <td>${escapeHtml(player.role)}</td>
+                      <td>${escapeHtml(player.team)}</td>
+                      <td>${escapeHtml(player.discord_name ? `@${player.discord_name}` : '—')}</td>
+                      <td>${player.image ? 'Set' : 'Default'}</td>
+                      <td style="white-space:nowrap;">
+                        <button type="button" data-roster-edit="${player.id}">Edit</button>
+                        <button type="button" class="danger" data-roster-delete="${player.id}">Delete</button>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+
+          rosterAdminList.querySelectorAll('[data-roster-edit]').forEach((button) => {
+            button.addEventListener('click', () => {
+              const player = rosterPlayers.find((item) => item.id === Number(button.dataset.rosterEdit));
+              if (!player) return;
+              rosterFields.id.value = player.id;
+              rosterFields.name.value = player.name;
+              rosterFields.realName.value = player.real_name || '';
+              rosterFields.role.value = player.role;
+              rosterFields.team.value = player.team;
+              rosterFields.image.value = player.image || '';
+              rosterFields.discord.value = player.discord_name || '';
+              document.getElementById('roster-save').textContent = 'Save changes';
+              rosterStatus.textContent = `Editing ${player.name}`;
+              rosterForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+          });
+
+          rosterAdminList.querySelectorAll('[data-roster-delete]').forEach((button) => {
+            button.addEventListener('click', async () => {
+              const player = rosterPlayers.find((item) => item.id === Number(button.dataset.rosterDelete));
+              if (!player || !window.confirm(`Remove ${player.name} from the roster?`)) return;
+              try {
+                await fetchJson(`/api/admin/rosters/${player.id}`, { method: 'DELETE' });
+                rosterStatus.textContent = `${player.name} removed from the roster.`;
+                rosterStatus.classList.add('success');
+                await loadRosterPlayers();
+              } catch (error) {
+                rosterStatus.textContent = error.message;
+                rosterStatus.classList.remove('success');
+              }
+            });
+          });
+        } catch (error) {
+          rosterAdminList.innerHTML = `<p class="user-meta">Unable to load roster players: ${escapeHtml(error.message)}</p>`;
+        }
+      }
+
+      rosterForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        rosterStatus.textContent = 'Saving player...';
+        rosterStatus.classList.remove('success');
+        const playerId = rosterFields.id.value;
+        const payload = {
+          name: rosterFields.name.value.trim(),
+          real_name: rosterFields.realName.value.trim(),
+          role: rosterFields.role.value.trim(),
+          team: rosterFields.team.value,
+          image: rosterFields.image.value.trim(),
+          discord_name: rosterFields.discord.value.trim(),
+        };
+
+        try {
+          const result = await fetchJson(playerId ? `/api/admin/rosters/${playerId}` : '/api/admin/rosters', {
+            method: playerId ? 'PUT' : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          rosterStatus.textContent = result.message;
+          rosterStatus.classList.add('success');
+          rosterForm.reset();
+          rosterFields.id.value = '';
+          document.getElementById('roster-save').textContent = 'Add player';
+          await loadRosterPlayers();
+        } catch (error) {
+          rosterStatus.textContent = error.message;
+          rosterStatus.classList.remove('success');
+        }
+      });
+
+      document.getElementById('roster-reset').addEventListener('click', () => {
+        rosterForm.reset();
+        rosterFields.id.value = '';
+        document.getElementById('roster-save').textContent = 'Add player';
+        rosterStatus.textContent = '';
+        rosterStatus.classList.remove('success');
+      });
+
+      eventForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        formStatus.textContent = 'Saving event...';
+        formStatus.classList.remove('success');
+
+        const payload = {
+          title: document.getElementById('title').value,
+          player: document.getElementById('player').value,
+          category: document.getElementById('category').value,
+          team: document.getElementById('team').value,
+          date: document.getElementById('date').value,
+          time: document.getElementById('time').value,
+          location: document.getElementById('location').value,
+          notes: document.getElementById('notes').value,
+        };
+        const eventId = document.getElementById('event-id').value;
+
+        try {
+          const result = await fetchJson(eventId ? `/api/admin/schedule/${eventId}` : '/api/admin/schedule', {
+            method: eventId ? 'PUT' : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          formStatus.textContent = result.message;
+          formStatus.classList.add('success');
+          eventForm.reset();
+          document.getElementById('event-id').value = '';
+          await loadSchedule();
+          await loadUsers();
+        } catch (error) {
+          formStatus.textContent = error.message;
+        }
+      });
+
+      document.getElementById('reset-form').addEventListener('click', () => {
+        eventForm.reset();
+        formStatus.textContent = '';
+      });
+
+      document.getElementById('logout-btn').addEventListener('click', async () => {
+        try {
+          await fetchJson('/api/auth/logout', { method: 'POST' });
+          window.location.href = '/login';
+        } catch (error) {
+          window.location.href = '/login';
+        }
+      });
+
+      (async function init() {
+        const user = await checkAuth();
+        if (user) {
+          await loadSchedule();
+          if (['coach', 'admin', 'owner'].includes(user.role)) {
+            await loadSiteContent();
+            await loadTeamMembers();
+          }
+          if (user.role === 'owner') {
+            await loadUsers();
+          }
+          if (user.role === 'admin' || user.role === 'owner') {
+            await loadContactMessages();
+          }
+          if (['coach', 'admin', 'owner'].includes(user.role)) {
+            await loadRosterPlayers();
+          } else {
+            rosterForm.hidden = true;
+            rosterAdminList.innerHTML = '<p class="user-meta">Roster editing is available to coaches and admins.</p>';
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

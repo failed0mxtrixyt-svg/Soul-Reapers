@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosters | Soul Reapers Esports | Professional Rainbow Six Siege Team</title>
+    <meta name="description" content="Meet the professional Rainbow Six Siege players of Soul Reapers Esports. View our main team roster, player profiles, and social media links.">
+    <meta name="keywords" content="Soul Reapers Esports, Rainbow Six Siege, roster, players, esports, professional gaming">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="theme.css?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/SREtp - Copy.png" alt="SRE Logo" class="logo-img">
+                <span class="logo-text">SRE</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="schedule" class="nav-link">Schedule</a></li>
+                <li><a href="rosters.html" class="nav-link active">Rosters</a></li>
+                <li><a href="staff.html" class="nav-link">Staff</a></li>
+                <li><a href="owners.html" class="nav-link">Owners</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="/login" class="nav-link">Log in</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">RAINBOW SIX SIEGE ROSTERS</h1>
+            <p class="page-subtitle">Meet our talented players competing at the highest level</p>
+        </div>
+    </section>
+
+    <!-- Live roster records managed from the admin dashboard -->
+    <section class="rosters live-rosters">
+        <div class="container" id="rosters-content" aria-live="polite">
+            <p class="roster-description">Loading current rosters...</p>
+        </div>
+    </section>
+
+    <!-- Legacy roster markup retained as a fallback during migration -->
+    <template class="legacy-rosters">
+    <section class="rosters legacy-rosters" aria-hidden="true">
+        <div class="container">
+            <!-- Main R6 Roster -->
+            <div class="roster-section">
+                <div class="roster-header">
+                    <h2>Main R6 Roster</h2>
+                    <p class="roster-description">Our premier competitive roster competing at the highest level</p>
+                </div>
+                <div class="players-grid">
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/FrisbeeHeadband_Face.png" alt="Dehhleon">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Dehhleon</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">IGL</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/IMG_4428.webp" alt="q_aNt4m.">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">q_aNt4m.</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Entry</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/126b11847c35e423e5ec7fbb2e4be985.png" alt="Sonic">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Sonic</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Entry</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/IMG_1108.png" alt="ItsJuice">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">ItsJuice</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Flex/Support</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/staff/694f4cab78d0aed08b6cc852.png" alt="Thrifts">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Thrifts</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Flex</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- Main R6 Roster Subs -->
+            <div class="roster-section">
+                <div class="roster-header">
+                    <h2>Main R6 Roster Subs</h2>
+                    <p class="roster-description">Our premier competitive roster competing at the highest level</p>
+                </div>
+                <div class="players-grid">
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/FrisbeeHeadband_Face.png" alt="Dehhleon">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Dehhleon</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">IGL</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/IMG_4428.webp" alt="q_aNt4m.">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">q_aNt4m.</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Entry</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/126b11847c35e423e5ec7fbb2e4be985.png" alt="Sonic">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Sonic</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Entry</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/IMG_1108.png" alt="ItsJuice">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">ItsJuice</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Flex/Support</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/staff/694f4cab78d0aed08b6cc852.png" alt="Thrifts">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Thrifts</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Flex</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- Academy R6 Roster -->
+            <div class="roster-section">
+                <div class="roster-header">
+                    <h2>Academy R6 Roster</h2>
+                    <p class="roster-description">Our developmental team nurturing the next generation of talent</p>
+                </div>
+                <div class="players-grid">
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/IMG_5350.jpg" alt="Academy Player">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Ooglif</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Flex</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/owners/74729C57-4D20-46F9-AC9B-29A3F8964CFA.png" alt="Academy Player">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Vclxqz7</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">IGL</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/meme-mem.png" alt="Academy Player">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">GGmoney_74</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Entry</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/academy4.jpg" alt="Academy Player">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Neb</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Entry</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/owners/grim-reaper-head-illustration-with-combination-of-crossed-scythe-and-blood-grunge-background-vector.jpg" alt="Academy Player">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">grimdeath</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">support</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Academy R6 Roster Subs-->
+            <div class="roster-section">
+                <div class="roster-header">
+                    <h2>Acad Roster subs</h2>
+                    <p class="roster-description">Our premier competitive roster competing at the highest level</p>
+                </div>
+                <div class="players-grid">
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/FrisbeeHeadband_Face.png" alt="Dehhleon">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Dehhleon</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">IGL</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/IMG_4428.webp" alt="q_aNt4m.">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">q_aNt4m.</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Entry</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/126b11847c35e423e5ec7fbb2e4be985.png" alt="Sonic">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Sonic</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Entry</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/players/IMG_1108.png" alt="ItsJuice">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">ItsJuice</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Flex/Support</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="player-image">
+                            <img src="assets/staff/694f4cab78d0aed08b6cc852.png" alt="Thrifts">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">Thrifts</h3>
+                            <p class="player-real-name"></p>
+                            <p class="player-role">Flex</p>
+                            <div class="player-socials">
+                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </template>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/SREtp - Copy.png" alt="SRE Logo">
+                    <span>Soul Reapers Esports</span>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Team</h4>
+                        <ul>
+                            <li><a href="rosters.html">Rosters</a></li>
+                            <li><a href="staff.html">Staff</a></li>
+                            <li><a href="owners.html">Owners</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="https://discord.gg/z5ZSQ5X55X">Discord</a></li>
+                            <li><a href="https://twitter.com/soulreapersgg">Twitter</a></li>
+                            <li><a href="https://tiktok.com/@soulreapersgg">TikTok</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="privacy.html">Privacy Policy</a></li>
+                            <li><a href="terms.html">Terms of Service</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Soul Reapers Esports. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+        <script>
+            const rosterGroups = document.getElementById("rosters-content");
+            const rosterDescriptions = {
+                "Main R6 Roster": "Our premier competitive roster competing at the highest level",
+                "Main R6 Roster Subs": "Reserve players ready to step into competition",
+                "Academy R6 Roster": "Our developmental team nurturing the next generation of talent",
+                "Academy Roster Subs": "Academy reserve players and developing talent",
+                "Apex Roster": "Soul Reapers Apex Legends competitive roster"
+            };
+
+            function escapeRosterText(value) {
+                return String(value || "").replace(/[&<>"']/g, (character) => ({
+                    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+                })[character]);
+            }
+
+            async function renderRosters() {
+                try {
+                    let data = null;
+                    try {
+                        const response = await fetch("/api/rosters", { credentials: "same-origin" });
+                        if (response.ok) data = await response.json();
+                    } catch (apiError) { /* API not reachable (e.g. static hosting) */ }
+                    if (!data) {
+                        const fallback = await fetch("data-rosters.json", { cache: "no-cache" });
+                        if (!fallback.ok) throw new Error("Unable to load roster");
+                        data = await fallback.json();
+                    }
+                    const players = data.rosters || [];
+                    const availableTeams = data.teams || [];
+                    const grouped = players.reduce((groups, player) => {
+                        (groups[player.team] ||= []).push(player);
+                        return groups;
+                    }, {});
+
+                                        const preferredOrder = ["Main R6 Roster", "Main R6 Roster Subs", "Academy R6 Roster", "Academy Roster Subs", "Apex Roster"];
+                                        const teams = [...new Set([...preferredOrder.filter((team) => availableTeams.includes(team) || grouped[team]), ...Object.keys(grouped).filter((team) => !preferredOrder.includes(team))])];
+
+                    if (!teams.length) {
+                        rosterGroups.innerHTML = '<div class="roster-header"><h2>No players listed yet</h2><p class="roster-description">Coaches and admins can add players from the admin dashboard.</p></div>';
+                        return;
+                    }
+
+                    rosterGroups.innerHTML = teams.map((team) => `
+                        <section class="roster-section">
+                            <div class="roster-header">
+                                <h2>${escapeRosterText(team)}</h2>
+                                <p class="roster-description">${escapeRosterText(rosterDescriptions[team] || "Meet the players representing Soul Reapers Esports")}</p>
+                            </div>
+                            <div class="players-grid">
+                                ${(grouped[team] || []).map((player) => `
+                                    <article class="player-card">
+                                        <div class="player-image">
+                                            <img src="${escapeRosterText(player.image || "/assets/SREtp%20-%20Copy.png")}" alt="${escapeRosterText(player.name)}" loading="lazy" onerror="this.onerror=null;this.src='/assets/SREtp%20-%20Copy.png'">
+                                        </div>
+                                        <div class="player-info">
+                                            <h3 class="player-name">${escapeRosterText(player.name)}</h3>
+                                            ${player.real_name ? `<p class="player-real-name">${escapeRosterText(player.real_name)}</p>` : ""}
+                                            <p class="player-role">${escapeRosterText(player.role)}</p>
+                                            ${player.discord_name ? `<p class="player-discord"><i class="fab fa-discord" aria-hidden="true"></i><span>${escapeRosterText(player.discord_name)}</span></p>` : ""}
+                                        </div>
+                                    </article>
+                                `).join("") || '<p class="roster-description">Roster announcements coming soon.</p>'}
+                            </div>
+                        </section>
+                    `).join("");
+                } catch (error) {
+                    rosterGroups.innerHTML = '<div class="roster-header"><h2>Roster temporarily unavailable</h2><p class="roster-description">Please refresh the page in a moment.</p></div>';
+                }
+            }
+
+            renderRosters();
+        </script>
+        <script src="script.js"></script>
+</body>
+</html>
