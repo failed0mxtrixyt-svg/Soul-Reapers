@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Soul Reapers Esports</title>
+    <style>
+      :root {
+        --bg: #090909;
+        --panel: rgba(17, 17, 20, 0.95);
+        --panel-soft: #101214;
+        --line: rgba(255,255,255,0.08);
+        --text: #edf3f7;
+        --muted: #a8b0b8;
+        --red: #ff2a42;
+        --red-bright: #ff4f63;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at top, rgba(255,42,66,0.18), transparent 30%), #090909;
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .auth-shell {
+        width: min(500px, calc(100% - 24px));
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        padding: 28px;
+      }
+      .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+      .brand-mark { width: 42px; height: 42px; border-radius: 12px; display:grid; place-items:center; background: linear-gradient(135deg, var(--red), #66141f); font-size: 0.8rem; }
+      h1 { margin: 0 0 10px; font-size: 2rem; }
+      p { margin: 0 0 20px; color: var(--muted); }
+      form { display: grid; gap: 14px; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      label { display:grid; gap:8px; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+      input, select {
+        width: 100%; padding: 14px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel-soft); color: var(--text);
+      }
+      button {
+        cursor: pointer; border: none; border-radius: 12px; padding: 14px 18px; background: linear-gradient(135deg, var(--red), var(--red-bright)); color: white; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 6px;
+      }
+      .bottom-text { margin-top: 16px; color: var(--muted); font-size: 0.92rem; text-align: center; }
+      .bottom-text a { color: white; }
+      .status { min-height: 20px; margin-top: 8px; font-size: 0.9rem; color: #ffb5bf; }
+      .status.success { color: #9bf7c6; }
+      @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+    </style>
+    <link rel="stylesheet" href="theme.css?v=2">
+  </head>
+  <body>
+    <div class="auth-shell">
+      <div class="brand"><div class="brand-mark">SRE</div><span>Soul Reapers</span></div>
+      <h1>Create account</h1>
+      <p>Create an account. New accounts start with viewer access; an owner can grant coach or admin access.</p>
+      <form id="register-form">
+        <label>
+          Username
+          <input id="username" type="text" required />
+        </label>
+        <label>
+          Email
+          <input id="email" type="email" required />
+        </label>
+        <label>
+          Password
+          <input id="password" type="password" required />
+        </label>
+        <button type="submit">Create account</button>
+      </form>
+      <div id="status" class="status" aria-live="polite"></div>
+      <div class="bottom-text">Already have an account? <a href="/login">Log in</a></div>
+      <div class="bottom-text"><a href="/">Back to home</a> · <a href="/schedule">View schedule</a></div>
+    </div>
+
+    <script>
+      const form = document.getElementById('register-form');
+      const status = document.getElementById('status');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const payload = {
+          username: document.getElementById('username').value,
+          email: document.getElementById('email').value,
+          password: document.getElementById('password').value,
+        };
+
+        status.textContent = 'Creating account...';
+        status.classList.remove('success');
+
+        try {
+          const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            credentials: 'same-origin',
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(result.detail || 'Registration failed');
+          status.textContent = result.message || 'Account created. Sign in to verify your email.';
+          status.classList.add('success');
+          setTimeout(() => window.location.href = '/login', 1200);
+        } catch (error) {
+          status.textContent = error.message;
+        }
+      });
+    </script>
+  </body>
+</html>
